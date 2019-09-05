@@ -3,6 +3,18 @@
            https://api.github.com/users/<your name>
 */
 
+// axios.get('https://api.github.com/users/DTJohnson5')
+//   .then((gitResponse) => {
+//     gitResponse.userData.forEach((item) => {
+//       const info = info(item)
+//       cards.appendChild(info)
+//     })
+//   })
+//   .catch((error) => {
+//     console.log('failed');
+//     console.log(error)
+//   })
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -24,7 +36,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['brellin', 'au-jones', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +57,72 @@ const followersArray = [];
 </div>
 
 */
+
+const aboutMe = function (gitResponse) {
+const card = document.createElement('div');
+card.classList.add('card');
+
+   const img = document.createElement('img');
+  img.src = gitResponse.data.avatar_url;
+  card.appendChild(img);
+
+   const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+  card.appendChild(cardInfo);
+
+   const header = document.createElement('h3');
+  header.classList.add('name');
+  header.textContent = gitResponse.data.name;
+
+   const username = document.createElement('p');
+  username.classList.add('username');
+  username.textContent = gitResponse.data.login;
+  cardInfo.appendChild(username);
+
+   const location = document.createElement('p');
+  location.textContent = `Location: ${gitResponse.data.location}`;
+  cardInfo.appendChild(location);
+
+   const profile = document.createElement('p');
+  profile.setAttribute('href', gitResponse.data.html_url);
+  profile.textContent = gitResponse.data.html_url;
+  cardInfo.appendChild(profile);
+
+   const followers = document.createElement('p');
+  followers.textContent = `Followers: ${gitResponse.data.followers}`;
+  cardInfo.appendChild(followers);
+
+   const following = document.createElement('p');
+  following.textContent = `Following: ${gitResponse.data.following}`;
+  cardInfo.appendChild(following);
+
+   const bio = document.createElement('p');
+  bio.textContent = `Bio: ${gitResponse.data.bio}`;
+  cardInfo.appendChild(bio);
+
+   return card;
+}
+
+const pageAppend = card => {
+  const cards = document.querySelector('.cards');
+  cards.appendChild(card);
+}
+
+function oops(error) {
+  console.log('failed');
+  console.log(error);
+}
+
+function hubLink(handle) {
+  return axios.get(`http://api.github.com/users/${handle}`)
+}
+
+followersArray.forEach(user => {
+  hubLink(user)
+  .then(aboutMe)
+  .then(pageAppend)
+  .catch(oops)
+})
 
 /* List of LS Instructors Github username's: 
   tetondan
