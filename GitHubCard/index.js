@@ -1,19 +1,19 @@
 /* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
+           (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
 
-// axios.get('https://api.github.com/users/DTJohnson5')
-//   .then((gitResponse) => {
-//     gitResponse.userData.forEach((item) => {
-//       const info = info(item)
-//       cards.appendChild(info)
-//     })
-//   })
-//   .catch((error) => {
-//     console.log('failed');
-//     console.log(error)
-//   })
+axios.get('https://api.github.com/users/DTJohnson5')
+  .then((gitResponse) => {
+    gitResponse.userData.forEach((item) => {
+      const info = info(item)
+      cards.appendChild(info)
+    })
+  })
+  .catch((error) => {
+    console.log('failed');
+    console.log(error)
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -36,7 +36,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = ['brellin', 'au-jones', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+const followersArray = ['marshnme', 'aaamg', 'vanessamclendon2', 'Wais-A', 'ndacode', 'DannyManzietti', 'rrrbba'];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -70,13 +70,14 @@ card.classList.add('card');
   cardInfo.classList.add('card-info');
   card.appendChild(cardInfo);
 
-   const header = document.createElement('h3');
-  header.classList.add('name');
-  header.textContent = gitResponse.data.name;
+   const name = document.createElement('h3');
+  name.classList.add('name');
+  name.textContent = `Name: ${gitResponse.data.name}`;
+  cardInfo.appendChild(name);
 
    const username = document.createElement('p');
   username.classList.add('username');
-  username.textContent = gitResponse.data.login;
+  username.textContent = `Username: ${gitResponse.data.login}`;
   cardInfo.appendChild(username);
 
    const location = document.createElement('p');
@@ -85,8 +86,13 @@ card.classList.add('card');
 
    const profile = document.createElement('p');
   profile.setAttribute('href', gitResponse.data.html_url);
-  profile.textContent = gitResponse.data.html_url;
+  profile.textContent = `Profile: `;
   cardInfo.appendChild(profile);
+
+  const profile2 = document.createElement('a');
+  profile2.setAttribute('href', gitResponse.data.html_url);
+  profile2.textContent = gitResponse.data.html_url;
+  profile.appendChild(profile2);
 
    const followers = document.createElement('p');
   followers.textContent = `Followers: ${gitResponse.data.followers}`;
